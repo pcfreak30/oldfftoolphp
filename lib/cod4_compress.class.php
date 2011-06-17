@@ -37,9 +37,6 @@ class COD4_Compress
 		if($this->offsets == false) return;
 		$this->extractDir = $dir.DS."scripts";
 		$this->dumpDir = $dir.DS."raw";
-		mkdir($dir);
-		mkdir($this->extractDir);
-		mkdir($this->dumpDir);
 		$this->packData();
 
 		$process_files = array();
@@ -55,14 +52,14 @@ class COD4_Compress
 					{
 						$data_file = $this->locateDumpFile($dat["name"]);
 						if($data_file != false)
-						shell_exec($this->cli_command." -w -15 -o 0x".$dat["name"]." \"".$this->dumpDir.$data_file."\" \"".$dir.DS.$filename."\"");
+						shell_exec($this->cli_command." -w -15 -o 0x".$dat["name"]." \"".$this->dumpDir.DS.$data_file."\" \"".$this->fastfile."\"");
 
 					}
 					else if($this->console == "xbox")
 					{
 						$data_file = $this->locateDumpFile($dat["name"]);
 						if($data_file != false)
-						shell_exec($this->cli_command." -o 0x".$dat["name"]." \"".$this->dumpDir.$data_file."\" \"".$dir.DS.$filename."\"");
+						shell_exec($this->cli_command." -o 0x".$dat["name"]." \"".$this->dumpDir.DS.$data_file."\" \"".$this->fastfile."\"");
 					}
 					$process_files[] = $dat["name"];
 				}
@@ -72,13 +69,14 @@ class COD4_Compress
 	private function checkSize($file, $size)
 	{
 		$info = stat($this->extractDir.DS.$file);
-		if($info["size"] > (int) $size)
+		$size =  $size;
+		if($info["size"] > $size)
 		{
 			$this->overFlow_files [] = array
 			(
 				"name"	=> $file,
 				"size"	=> $size,
-				"overflow"	=> $file - $size
+				"overflow"	=> $info["size"] - $size
 			);
 			return false;
 		}

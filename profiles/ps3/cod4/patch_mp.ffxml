@@ -16,7 +16,7 @@
 	<file name="_hud_util.gsc" size="17771">
 		<datafile name="00025c1d" startpos="21914" endpos="39684" />
 	</file>
-	<file name="_spawnlogic.gsc" size="28676">
+	<file name="_spawnlogic.gsc" size="57613">
 		<datafile name="00025c1d" startpos="48855" endpos="65535" />
 		<datafile name="000295f3" startpos="0" endpos="40931" />
 	</file>
@@ -37,7 +37,7 @@
 		<datafile name="000338ec" startpos="30514" endpos="33236" />
 	</file>
 	<file name="mp_convoy.gsc" size="1609">
-		<datafile name="000338ec" startpos="33236" endpos="34881" />
+		<datafile name="000338ec" startpos="33273" endpos="34881" />
 	</file>
 	<file name="mp_crash.gsc" size="1372">
 		<datafile name="000338ec" startpos="34916" endpos="36287" />

@@ -37,9 +37,6 @@ class MW2_Compress
 		if($this->offsets == false) return;
 		$this->extractDir = $dir.DS."scripts";
 		$this->dumpDir = $dir.DS."raw";
-		mkdir($dir);
-		mkdir($this->extractDir);
-		mkdir($this->dumpDir);
 		$this->packData();
 
 		$process_files = array();
@@ -57,14 +54,14 @@ class MW2_Compress
 					{
 						$data_file = $this->locateDumpFile($dat["name"]);
 						if($data_file != false)
-						shell_exec($this->cli_command." -w -15 -o 0x".$dat["name"]." \"".$this->dumpDir.$data_file."\" \"".$dir.DS.$filename."\"");
+						shell_exec($this->cli_command." -w -15 -o 0x".$dat["name"]." \"".$this->dumpDir.DS.$data_file."\" \"".$dir.DS.$filename."\"");
 
 					}
 					else if($this->console == "xbox")
 					{
 						$data_file = $this->locateDumpFile($dat["name"]);
 						if($data_file != false)
-						shell_exec($this->cli_command." -o 0x".$dat["name"]." \"".$this->dumpDir.$data_file."\" \"".$dir.DS.$filename."\"");
+						shell_exec($this->cli_command." -o 0x".$dat["name"]." \"".$this->dumpDir.DS.$data_file."\" \"".$dir.DS.$filename."\"");
 					}
 					$process_files[] = $dat["name"];
 				}
@@ -75,13 +72,14 @@ class MW2_Compress
 	private function checkSize($file, $size)
 	{
 		$info = stat($this->extractDir.DS.$file);
-		if($info["size"] > (int) $size)
+		$size = (int) $size;
+		if($info["size"] > $size)
 		{
 			$this->overFlow_files [] = array
 			(
 				"name"	=> $file,
 				"size"	=> $size,
-				"overflow"	=> $file - $size
+				"overflow"	=> $info["size"]- $size;\
 			);
 			return false;
 		}
@@ -193,9 +191,9 @@ class MW2_Compress
 		$name = $dump[1];
 		$filename= $dump[0];
 		if($this->console == "ps3")
-		shell_exec($this->cli_command." -w -15 -o 0x".$name." \"".$dir .DS.$filename."\" \"".$this->fastfile."\"");
+		shell_exec($this->cli_command." -w -15 -o 0x".$name." \"".$dir.DS.$filename."\" \"".$this->fastfile."\"");
 		else if($this->console == "xbox")
-		shell_exec($this->cli_command." -o 0x".$name." \"".$dir .DS.$filename."\" \"".$this->fastfile."\"");
+		shell_exec($this->cli_command." -o 0x".$name." \"".$dir.DS.$filename."\" \"".$this->fastfile."\"");
 	}
 
 	private function getDumpName($dir)

@@ -47,6 +47,7 @@ class COD5_Compress
 
 		foreach($this->offsets->file as $file)
 		{
+			print "Processing ".$file["name"]."\n";
 			foreach($file->datafile as $dat)
 			{
 				if(!in_array($dat["name"],$process_files))
@@ -156,7 +157,7 @@ class COD5_Compress
 		foreach($files as $file)
 		{
 			$info = pathinfo($this->dumpDir.DS.$file);
-			$name= $info["basename"];
+			$name= $info["filename"];
 			if($name == $offset) return $file;
 		}
 		return false;

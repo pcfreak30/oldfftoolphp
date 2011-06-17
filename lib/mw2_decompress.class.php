@@ -64,6 +64,7 @@ class MW2_Decompress
 	{
 		foreach($this->offsets->file as $file)
 		{
+			print "Processing ".$file["name"]."\n"
 			$this->extractData($file);
 		}
 	}
@@ -110,7 +111,7 @@ class MW2_Decompress
 		foreach($files as $file)
 		{
 			$info = pathinfo($this->dumpDir.DS.$file);
-			$name= $info["basename"];
+			$name= $info["filename"];
 			if($name == $offset) return $file;
 		}
 		return false;

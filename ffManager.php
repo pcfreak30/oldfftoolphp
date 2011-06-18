@@ -43,6 +43,7 @@ while(!$valid_fastfile)
 {
 	$p = getInput("Please Drag and Drop a FastFile into this window, then press ENTER:\n");
 	$p=  str_replace("\"","",trim($p));
+	$p=  str_replace("'","",$p);
 	if($p != "" && file_exists($p))
 	{
 
@@ -92,6 +93,7 @@ while(!$valid_profile)
 {
 	$p = getInput("Please Drag and Drop a FastFile XML Profile into this window, then press ENTER:\n");
 	$p=  str_replace("\"","",trim($p));
+	$p=  str_replace("'","",$p);
 	if($p != "" && file_exists($p))
 	{
 		if(!simplexml_load_file($p))

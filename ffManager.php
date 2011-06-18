@@ -82,7 +82,7 @@ switch($game)
 fputs(STDOUT,"\n\n");
 while(!$valid_profile)
 {
-	$p = getInput("Please Drag and Drop a FastFile XML Profile into this windows, then press ENTER:\n");
+	$p = getInput("Please Drag and Drop a FastFile XML Profile into this window, then press ENTER:\n");
 	$p=  str_replace("\"","",trim($p));
 	if($p != "" && file_exists($p))
 	{

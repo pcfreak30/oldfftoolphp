@@ -54,14 +54,14 @@ class MW2_Compress
 					{
 						$data_file = $this->locateDumpFile($dat["name"]);
 						if($data_file != false)
-						shell_exec($this->cli_command." -w -15 -o 0x".$dat["name"]." \"".$this->dumpDir.DS.$data_file."\" \"".$dir.DS.$filename."\"");
+						shell_exec($this->cli_command." -w -15 -o 0x".$dat["name"]." \"".$this->dumpDir.DS.$data_file."\" \"".$dir.DS.$filename."\"  2> nul");
 
 					}
 					else if($this->console == "xbox")
 					{
 						$data_file = $this->locateDumpFile($dat["name"]);
 						if($data_file != false)
-						shell_exec($this->cli_command." -o 0x".$dat["name"]." \"".$this->dumpDir.DS.$data_file."\" \"".$dir.DS.$filename."\"");
+						shell_exec($this->cli_command." -o 0x".$dat["name"]." \"".$this->dumpDir.DS.$data_file."\" \"".$dir.DS.$filename."\" 2> nul");
 					}
 					$process_files[] = $dat["name"];
 				}
@@ -92,7 +92,7 @@ class MW2_Compress
 		foreach($this->offsets->file as $file)
 		{
 			$size = $this->checkSize($file["name"],$file["size"]);
-			if($size != false)
+			if($size != false && $this->hasChanged($file["name"]))
 			{
 				$pos = 0;
 				if($size > 0)
@@ -102,6 +102,10 @@ class MW2_Compress
 					$this->packPart($data,$file["name"], $pos);
 					$pos += $data["endpos"] - $data["startpos"];
 				}
+			}
+			else
+			{
+				print "\nFile ".$file["name"]." has not changed. Skipping..\n";
 			}
 		}
 	}
@@ -191,9 +195,9 @@ class MW2_Compress
 		$name = $dump[1];
 		$filename= $dump[0];
 		if($this->console == "ps3")
-		shell_exec($this->cli_command." -w -15 -o 0x".$name." \"".$dir.DS.$filename."\" \"".$this->fastfile."\"");
+		shell_exec($this->cli_command." -w -15 -o 0x".$name." \"".$dir.DS.$filename."\" \"".$this->fastfile."\"  2> nul");
 		else if($this->console == "xbox")
-		shell_exec($this->cli_command." -o 0x".$name." \"".$dir.DS.$filename."\" \"".$this->fastfile."\"");
+		shell_exec($this->cli_command." -o 0x".$name." \"".$dir.DS.$filename."\" \"".$this->fastfile."\"  2> nul");
 	}
 
 	private function getDumpName($dir)
@@ -216,6 +220,17 @@ class MW2_Compress
 		}
 		$info = pathinfo($dir.DS.$filename);
 		return array($filename,$info["filename"]);
+	}
+	private function hasChanged($file)
+	{
+		if(md5_file($this->extractDir.DS.$file) != trim(file_get_contents($this->extractDir.DS.$file.".md5")))
+		{
+			print "\nFile ".$file." has changed..\n";
+			file_put_contents($this->extractDir.DS.$file.".md5",md5_file($this->extractDir.DS.$file));
+			return true;
+		}
+		else 
+		return false;
 	}
 }
 ?>

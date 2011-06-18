@@ -41,9 +41,9 @@ class COD4_Decompress
 		mkdir($this->extractDir);
 		mkdir($this->dumpDir);
 		if($this->console == "ps3")
-		shell_exec($this->cli_command." -a -z -15 \"".$this->fastfile."\" \"".$this->dumpDir."\" 0");
+		shell_exec($this->cli_command." -a -z -15 \"".$this->fastfile."\" \"".$this->dumpDir."\" 0  2> nul");
 		else if($this->console == "xbox")
-		shell_exec($this->cli_command." -a \"".$this->fastfile."\" \"".$this->dumpDir."\" 0");
+		shell_exec($this->cli_command." -a \"".$this->fastfile."\" \"".$this->dumpDir."\" 0  2> nul");
 		$this->writeScripts();
 	}
 	private function rrmdir($dir) {
@@ -51,11 +51,11 @@ class COD4_Decompress
 			$objects = scandir($dir);
 			foreach ($objects as $object) {
 				if ($object != "." && $object != "..") {
-					if (filetype($dir.DS.$object) == "dir") $this->rrmdir($dir.DS.$object); else unlink($dir."/".$object);
+					if (filetype($dir.DS.$object) == "dir") $this->rrmdir($dir.DS.$object); else @unlink($dir."/".$object);
 				}
 			}
 			reset($objects);
-			rmdir($dir);
+			@rmdir($dir);
 		}
 	}
 	private function writeScripts()
@@ -64,6 +64,7 @@ class COD4_Decompress
 		{
 			print "Processing ".$file["name"]."\n";
 			$this->extractData($file);
+			file_put_contents($this->extractDir.DS.$file["name"].".md5",md5_file($this->extractDir.DS.$file["name"]));
 		}
 	}
 

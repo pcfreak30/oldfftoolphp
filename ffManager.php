@@ -4,7 +4,7 @@ Program: ffManager PHP Version
 Author: Derrick J. Hammer
 Author Alias: PCFreak30
 License: GPL v2 http://www.gnu.org/licenses/gpl.html
-Last Updated: 6-17-11
+Last Updated: 6-18-11
 */
 
 echo <<<OUT
@@ -13,7 +13,7 @@ ffManager PHP Interactive Tool
 ------------------------------
 Created by Derrick Hammer, A.K.A. PCFreak30
 Released under GPLv3 License, http://www.gnu.org/licenses/gpl.html
-
+Version: 1.1
 Visit PCFreak30.com for News and Updates
 
 Visit SimplyHacks.com for Releases and a fun, leech-free community..
@@ -64,6 +64,14 @@ while(!$valid_fastfile)
 	{
 		fputs(STDOUT,"Invalid FastFile\n");
 	}
+	system("cls");
+}
+
+$info = pathinfo($fastfile);
+if(is_dir($info["dirname"].DS.$info["filename"]."_extract"))
+{
+	print("NOTICE: It seems that the extract directory exists already!\nPlease close any windows or applications using the folder or its contents..\nIf you do not, then extraction will likely fail.\n\n Press any key to continue...");
+	fgets(STDIN);
 }
 fputs(STDOUT,"\n\n");
 switch($game)
@@ -196,6 +204,7 @@ while(!$valid_action)
 		}
 		$valid_action = true;
 	}
+
 }
 function getInput($msg)
 {

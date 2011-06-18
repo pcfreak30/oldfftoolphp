@@ -40,6 +40,7 @@ class COD4_Decompress
 		mkdir($dir);
 		mkdir($this->extractDir);
 		mkdir($this->dumpDir);
+		print "Decompressing ".$this->fastfile."\n";
 		if($this->console == "ps3")
 		shell_exec($this->cli_command." -a -z -15 \"".$this->fastfile."\" \"".$this->dumpDir."\" 0  2> nul");
 		else if($this->console == "xbox")

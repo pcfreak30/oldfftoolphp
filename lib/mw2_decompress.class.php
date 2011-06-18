@@ -4,7 +4,7 @@ Program: ffManager PHP Version
 Author: Derrick J. Hammer
 Author Alias: PCFreak30
 License: GPL v2 http://www.gnu.org/licenses/gpl.html
-Last Updated: 6-17-11
+Last Updated: 6-18-11
 */
 @define("DS", DIRECTORY_SEPARATOR);
 class MW2_Decompress
@@ -40,7 +40,7 @@ class MW2_Decompress
 		mkdir($dir);
 		mkdir($this->extractDir);
 		mkdir($this->dumpDir);
-
+		print "Decompressing ".$this->fastfile."\n";
 		if($this->console == "ps3")
 		shell_exec($this->cli_command." -a -z -15 \"".$this->fastfile."\" \"".$dir."\" 0  2> nul");
 		else if($this->console == "xbox")
@@ -64,9 +64,9 @@ class MW2_Decompress
 	{
 		foreach($this->offsets->file as $file)
 		{
-			print "Processing ".$file["name"]."\n"
+			print "Processing ".$file["name"]."\n";
 			$this->extractData($file);
-			file_put_contents($this->extractDir.DS.$file["name"].".md5",md5_file($this->extractDir.DS.$file["name"]));
+			@file_put_contents($this->extractDir.DS.$file["name"].".md5",@md5_file($this->extractDir.DS.$file["name"]));
 		}
 	}
 

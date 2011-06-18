@@ -40,7 +40,7 @@ class COD4_Compress
 		$this->packData();
 
 		$process_files = array();
-
+		print "Compressing ".$this->fastfile."\n";
 		foreach($this->offsets->file as $file)
 		{
 			print "Processing ".$file["name"]."\n";

@@ -4,7 +4,7 @@ Program: ffManager PHP Version
 Author: Derrick J. Hammer
 Author Alias: PCFreak30
 License: GPL v2 http://www.gnu.org/licenses/gpl.html
-Last Updated: 6-17-11
+Last Updated: 6-18-11
 */
 	@define("DS", DIRECTORY_SEPARATOR);
 class MW2_Compress
@@ -43,6 +43,7 @@ class MW2_Compress
 		$dump = $this->getDumpName($dir);
 		$name = $dump[1];
 		$filename= $dump[0];
+		print "Compressing ".$this->fastfile."\n";
 		foreach($this->offsets->file as $file)
 		{
 			print "Processing ".$file["name"]."\n";
@@ -79,7 +80,7 @@ class MW2_Compress
 			(
 				"name"	=> $file,
 				"size"	=> $size,
-				"overflow"	=> $info["size"]- $size;\
+				"overflow"	=> $info["size"]- $size
 			);
 			return false;
 		}
@@ -226,7 +227,7 @@ class MW2_Compress
 		if(md5_file($this->extractDir.DS.$file) != trim(file_get_contents($this->extractDir.DS.$file.".md5")))
 		{
 			print "\nFile ".$file." has changed..\n";
-			file_put_contents($this->extractDir.DS.$file.".md5",md5_file($this->extractDir.DS.$file));
+			@file_put_contents($this->extractDir.DS.$file.".md5",@md5_file($this->extractDir.DS.$file));
 			return true;
 		}
 		else 
